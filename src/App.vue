@@ -1,11 +1,14 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import Navbar from './components/Navbar.vue';
+import { RouterView } from 'vue-router'
 import Sidebar from './components/sidebar.vue';
+import { useUserStore } from './stores/user';
+
+const store = useUserStore()
 </script>
 
 <template>
-  <Sidebar />
+  <Sidebar v-if="store.isAuthenticated" />
+  <RouterView />
 </template>
 
 <style scoped></style>
