@@ -18,11 +18,7 @@ const loginSubmit = () => {
         'password': password.value
     })
         .then((res) => {
-            //store.userData = res.data
-            //console.log(store.userData)
             store.loggedUser(res.data)
-            console.log(store.userData.token)
-            store.userLogged()
             route.push('/')
         })
         .catch((err) => console.error(err))

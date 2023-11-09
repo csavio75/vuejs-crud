@@ -7,7 +7,7 @@ const store = useUserStore()
 </script>
 
 <template>
-  <Sidebar v-if="store.isAuthenticated" />
+  <Sidebar v-if="store.userData" />
   <RouterView />
 </template>
 
