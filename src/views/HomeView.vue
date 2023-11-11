@@ -1,8 +1,10 @@
 <script setup>
+import Sidebar from '../components/sidebar.vue';
+
 </script>
 
 <template>
-  <div class="container-fluid">
-    <h2>This is a home page</h2>
-  </div>
+  <Sidebar>
+    <h2>Welcome to home page</h2>
+  </Sidebar>
 </template>

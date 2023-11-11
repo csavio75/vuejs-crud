@@ -11,7 +11,6 @@ const url = inject('base_url') + '/login'
 const email = ref('')
 const password = ref('')
 
-
 const loginSubmit = () => {
     axios.post(url, {
         'email': email.value,
@@ -19,6 +18,7 @@ const loginSubmit = () => {
     })
         .then((res) => {
             store.loggedUser(res.data)
+            store.isAuthenticated = true
             route.push('/')
         })
         .catch((err) => console.error(err))

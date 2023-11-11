@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ProductTable from '../components/ProductTable.vue';
 import ProductForm from '../components/ProductForm.vue';
+import Sidebar from '../components/sidebar.vue';
 
 const showForm = ref(false)
 
@@ -11,12 +12,12 @@ const addProduct = () => {
 </script>
 
 <template>
-    <div class="container-fluid">
+    <Sidebar>
         <h2>Products</h2>
         <button class="btn btn-primary btnAdd" @click="addProduct">{{ showForm ? 'Back' : 'Add' }}</button>
         <ProductForm v-if="showForm" />
         <ProductTable v-else />
-    </div>
+    </Sidebar>
 </template>
 
 <style scoped>

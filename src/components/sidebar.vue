@@ -1,8 +1,23 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, RouterView, useRouter } from 'vue-router';
 import { useUserStore } from '../stores/user';
+import { inject } from 'vue';
+import axios from 'axios'
+import { storeToRefs } from 'pinia';
 
+
+const url = inject('base_url') + '/logout'
 const store = useUserStore()
+const route = useRouter()
+
+const loggedOut = () => {
+    axios.defaults.headers.post['Authorization'] = `Bearer ${store.userData.token}`;
+    axios.post(url)
+        .then(() => {
+            store.isAuthenticated = false
+        })
+        .catch((err) => console.log(err))
+}
 </script>
 
 <template>
@@ -45,7 +60,7 @@ const store = useUserStore()
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <RouterLink to="/login" class="dropdown-item" @click="store.userLogged()">Sign out
+                                <RouterLink to="/login" @click="loggedOut" class="dropdown-item">Sign out
                                 </RouterLink>
                             </li>
                         </ul>
@@ -53,7 +68,7 @@ const store = useUserStore()
                 </div>
             </div>
             <div class="col py-3">
-                <RouterView />
+                <slot></slot>
             </div>
         </div>
     </div>
