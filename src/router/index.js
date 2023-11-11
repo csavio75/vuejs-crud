@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const store = useUserStore()
 
   if (to.meta.requiresAuth) {
-    if (store.userData.token) {
+    if (store.isAuthenticated && store.userData.token) {
       next()
     } else next({ name: 'login' })
   } else next()
