@@ -1,8 +1,9 @@
 <script setup>
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { getStorage } from '../stores/localStorage';
+
 
 const products = ref([])
 const url = inject('base_url') + '/products'
@@ -17,10 +18,8 @@ const listProducts = () => {
         .catch(error => console.log(error))
 }
 
-const getProduct = (id) => {
-    axios.get(url + '/' + id)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err))
+const updateProduct = (id) => {
+    route.push(`/form/${id}`)
 }
 
 const deleteProduct = (id) => {
@@ -28,7 +27,7 @@ const deleteProduct = (id) => {
     if (del) {
         axios.defaults.headers.delete['Authorization'] = `Bearer ${token}`;
         axios.delete(url + '/' + id)
-            .then(() => route.push('/products'))
+            .then(() => listProducts())
             .catch((err) => console.log(err))
     }
 }
@@ -55,7 +54,7 @@ onMounted(() => {
                     <td>{{ product.description }}</td>
                     <td>{{ product.price }} MGA</td>
                     <td>
-                        <i class="bi bi-pencil-square" id="icon-action" @click="getProduct(product.id)"></i>
+                        <i class="bi bi-pencil-square" id="icon-action" @click="updateProduct(product.id)"></i>
                     </td>
                     <td>
                         <i class="bi bi-trash" id="icon-action" @click="deleteProduct(product.id)"></i>

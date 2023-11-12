@@ -4,7 +4,6 @@ import About from '../views/AboutView.vue'
 import Login from '../views/LoginView.vue'
 import ProductView from '@/views/ProductView.vue'
 import ProductFormView from '../views/ProductFormView.vue'
-import { useUserStore } from '../stores/user'
 import { getStorage } from '../stores/localStorage.js'
 
 
@@ -45,7 +44,15 @@ const router = createRouter({
     },
     {
       path: '/form',
-      name: 'form',
+      name: 'add',
+      component: ProductFormView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/form/:id',
+      name: 'update',
       component: ProductFormView,
       meta: {
         requiresAuth: true

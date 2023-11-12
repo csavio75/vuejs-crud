@@ -1,18 +1,19 @@
 <script setup>
 import axios from 'axios';
-import { inject, ref } from 'vue';
-import { useUserStore } from '../stores/user';
-import { useRouter } from 'vue-router';
+import { inject, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { getStorage } from '../stores/localStorage';
 
 const name = ref('')
 const slug = ref('')
 const description = ref('')
-const price = ref(0)
+const price = ref(0.0)
 
 const url = inject('base_url') + '/products'
-const route = useRouter()
+const router = useRouter()
+const route = useRoute()
 const token = getStorage('token')
+const id = ref(route.params.id)
 
 const saveProduct = () => {
     axios.defaults.headers.post['Authorization'] = `Bearer ${token}`;
@@ -22,9 +23,38 @@ const saveProduct = () => {
         'description': description.value,
         'price': price.value
     })
-        .then(() => route.push("/products"))
+        .then(() => router.push({ name: 'list' }))
         .catch((err) => console.log(err))
 }
+
+const getProduct = (id) => {
+    axios.get(url + '/' + id)
+        .then((res) => {
+            name.value = res.data.name
+            slug.value = res.data.slug
+            description.value = res.data.description
+            price.value = res.data.price
+        })
+        .catch((err) => console.log(err))
+}
+
+const updateProduct = (id) => {
+    axios.defaults.headers.put['Authorization'] = `Bearer ${token}`;
+    axios.put(`${url}/${id}`, {
+        'name': name.value,
+        'slug': slug.value,
+        'description': description.value,
+        'price': price.value
+    })
+        .then(() => router.push({ name: 'list' }))
+        .catch((err) => console.log(err))
+}
+
+onMounted(() => {
+    if (route.params) {
+        getProduct(id.value)
+    }
+})
 </script>
 
 <template>
@@ -45,6 +75,7 @@ const saveProduct = () => {
         <input type="number" class="form-control" id="price" placeholder="Price" v-model="price">
     </div>
     <div>
-        <button class="btn btn-success" @click="saveProduct">Save</button>
+        <button class="btn btn-success"
+            @click="route.params.id ? updateProduct(route.params.id) : saveProduct()">Save</button>
     </div>
 </template>
