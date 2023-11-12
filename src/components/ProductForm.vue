@@ -3,6 +3,7 @@ import axios from 'axios';
 import { inject, ref } from 'vue';
 import { useUserStore } from '../stores/user';
 import { useRouter } from 'vue-router';
+import { getStorage } from '../stores/localStorage';
 
 const name = ref('')
 const slug = ref('')
@@ -10,19 +11,18 @@ const description = ref('')
 const price = ref(0)
 
 const url = inject('base_url') + '/products'
-const store = useUserStore()
-
 const route = useRouter()
+const token = getStorage('token')
 
 const saveProduct = () => {
-    axios.defaults.headers.post['Authorization'] = `Bearer ${store.userData.token}`;
+    axios.defaults.headers.post['Authorization'] = `Bearer ${token}`;
     axios.post(url, {
         'name': name.value,
         'slug': slug.value,
         'description': description.value,
         'price': price.value
     })
-        .then(() => route.push("/product"))
+        .then(() => route.push("/products"))
         .catch((err) => console.log(err))
 }
 </script>

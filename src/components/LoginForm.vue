@@ -3,6 +3,7 @@ import { inject, ref } from 'vue';
 import { useUserStore } from '../stores/user';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { getStorage, saveStorage } from '../stores/localStorage.js'
 
 
 const store = useUserStore()
@@ -18,7 +19,7 @@ const loginSubmit = () => {
     })
         .then((res) => {
             store.loggedUser(res.data)
-            store.isAuthenticated = true
+            saveStorage('token', res.data.token)
             route.push('/')
         })
         .catch((err) => console.error(err))

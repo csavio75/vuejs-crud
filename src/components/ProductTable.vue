@@ -1,11 +1,13 @@
 <script setup>
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import axios from 'axios';
-import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router';
+import { getStorage } from '../stores/localStorage';
 
 const products = ref([])
 const url = inject('base_url') + '/products'
-const store = useUserStore()
+const route = useRouter()
+const token = getStorage('token')
 
 const listProducts = () => {
     axios.get(url)
@@ -14,7 +16,6 @@ const listProducts = () => {
         })
         .catch(error => console.log(error))
 }
-listProducts()
 
 const getProduct = (id) => {
     axios.get(url + '/' + id)
@@ -25,12 +26,17 @@ const getProduct = (id) => {
 const deleteProduct = (id) => {
     const del = confirm("Voulez-vous vraiment supprimer ce produit?")
     if (del) {
-        axios.defaults.headers.delete['Authorization'] = `Bearer ${store.userData.token}`;
+        axios.defaults.headers.delete['Authorization'] = `Bearer ${token}`;
         axios.delete(url + '/' + id)
-            .then(() => listProducts)
+            .then(() => route.push('/products'))
             .catch((err) => console.log(err))
     }
 }
+
+onMounted(() => {
+    listProducts()
+})
+
 </script>
 
 <template>

@@ -2,8 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import About from '../views/AboutView.vue'
 import Login from '../views/LoginView.vue'
-import Product from '@/views/Product.vue'
+import ProductView from '@/views/ProductView.vue'
+import ProductFormView from '../views/ProductFormView.vue'
 import { useUserStore } from '../stores/user'
+import { getStorage } from '../stores/localStorage.js'
 
 
 const router = createRouter({
@@ -28,7 +30,7 @@ const router = createRouter({
     {
       path: '/products',
       name: 'list',
-      component: Product,
+      component: ProductView,
       meta: {
         requiresAuth: true
       }
@@ -40,15 +42,23 @@ const router = createRouter({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path: '/form',
+      name: 'form',
+      component: ProductFormView,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const store = useUserStore()
+  const access_token = getStorage('token')
 
   if (to.meta.requiresAuth) {
-    if (store.isAuthenticated && store.userData.token) {
+    if (access_token) {
       next()
     } else next({ name: 'login' })
   } else next()

@@ -3,20 +3,21 @@ import { ref } from 'vue';
 import ProductTable from '../components/ProductTable.vue';
 import ProductForm from '../components/ProductForm.vue';
 import Sidebar from '../components/sidebar.vue';
+import { useRouter } from 'vue-router';
 
-const showForm = ref(false)
+
+const route = useRouter()
 
 const addProduct = () => {
-    showForm.value = !showForm.value
+    route.push("/form")
 }
 </script>
 
 <template>
     <Sidebar>
         <h2>Products</h2>
-        <button class="btn btn-primary btnAdd" @click="addProduct">{{ showForm ? 'Back' : 'Add' }}</button>
-        <ProductForm v-if="showForm" />
-        <ProductTable v-else />
+        <button class="btn btn-primary btnAdd" @click="addProduct">Add</button>
+        <ProductTable />
     </Sidebar>
 </template>
 

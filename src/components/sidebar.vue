@@ -1,20 +1,18 @@
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router';
-import { useUserStore } from '../stores/user';
+import { RouterLink } from 'vue-router';
 import { inject } from 'vue';
 import axios from 'axios'
-import { storeToRefs } from 'pinia';
+import { clearStorage, getStorage } from '../stores/localStorage';
 
 
 const url = inject('base_url') + '/logout'
-const store = useUserStore()
-const route = useRouter()
+const token = getStorage('token')
 
 const loggedOut = () => {
-    axios.defaults.headers.post['Authorization'] = `Bearer ${store.userData.token}`;
+    axios.defaults.headers.post['Authorization'] = `Bearer ${token}`;
     axios.post(url)
         .then(() => {
-            store.isAuthenticated = false
+            clearStorage('token')
         })
         .catch((err) => console.log(err))
 }
