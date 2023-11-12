@@ -58,24 +58,25 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Product name" v-model="name">
-    </div>
-    <div class="mb-3">
-        <label for="slug" class="form-label">Slug</label>
-        <input type="text" class="form-control" id="slug" placeholder="Product slug" v-model="slug">
-    </div>
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" rows="3" v-model="description"></textarea>
-    </div>
-    <div class="mb-3">
-        <label for="name" class="form-label">Price</label>
-        <input type="number" class="form-control" id="price" placeholder="Price" v-model="price">
-    </div>
-    <div>
-        <button class="btn btn-success"
-            @click="route.params.id ? updateProduct(route.params.id) : saveProduct()">Save</button>
-    </div>
+    <form @submit.prevent="route.params.id ? updateProduct(route.params.id) : saveProduct()">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Product name" v-model="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="slug" class="form-label">Slug</label>
+            <input type="text" class="form-control" id="slug" placeholder="Product slug" v-model="slug" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" rows="3" v-model="description"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" placeholder="Price" v-model="price" required>
+        </div>
+        <div>
+            <button class="btn btn-success">Save</button>
+        </div>
+    </form>
 </template>

@@ -40,7 +40,7 @@ const loginSubmit = () => {
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form>
+                                    <form @submit.prevent="loginSubmit">
 
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account
                                         </h5>
@@ -48,18 +48,17 @@ const loginSubmit = () => {
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="email">Email address</label>
                                             <input type="email" id="email" class="form-control form-control-lg"
-                                                v-model="email" />
+                                                v-model="email" required />
                                         </div>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="password">Password</label>
                                             <input type="password" id="password" class="form-control form-control-lg"
-                                                v-model="password" />
+                                                v-model="password" required />
                                         </div>
 
                                         <div class="pt-1 mb-4">
-                                            <button class="btn btn-dark btn-lg btn-block" type="button"
-                                                @click="loginSubmit">Login</button>
+                                            <button class="btn btn-dark btn-lg btn-block">Login</button>
                                         </div>
 
                                         <RouterLink to="/login" class="small text-muted">Forgot password?
